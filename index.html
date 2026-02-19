@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Episode - RPG Leveling System</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .glass-dark {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .xp-gradient {
+            background: linear-gradient(90deg, #3b82f6, #6366f1);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .card-perspective {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.5s;
+            transform-style: preserve-3d;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#6366f1',
+                        success: '#10b981',
+                        danger: '#ef4444',
+                        warning: '#f59e0b',
+                    },
+                    borderRadius: {
+                        '3xl': '1.5rem',
+                        '4xl': '2rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 glass border-b border-slate-200 px-4 py-3 md:px-8 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <i class="fas fa-infinity text-2xl text-primary"></i>
+            <span class="text-xl font-extrabold tracking-tight text-slate-800">EPISODE</span>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <!-- Stats -->
+            <div class="hidden md:flex items-center gap-3">
+                <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm">
+                    <i class="fas fa-coins text-warning"></i>
+                    <span id="header-gold" class="font-bold text-sm">0</span>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-800 text-white px-4 py-1.5 rounded-full shadow-md">
+                    <span class="text-xs font-bold uppercase opacity-80" data-i18n="lvl">LVL</span>
+                    <span id="header-level" class="font-black text-sm">1</span>
+                    <div class="w-20 h-2 bg-slate-700 rounded-full overflow-hidden ml-1">
+                        <div id="header-xp-bar" class="xp-gradient h-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Language Toggle -->
+            <button id="lang-toggle" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-colors shadow-sm font-bold text-xs">
+                TR
+            </button>
+
+            <!-- Menu Toggle (Mobile) -->
+            <button class="md:hidden text-slate-600 text-xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="app-container" class="flex-1 overflow-y-auto pb-20">
+        <!-- Screens will be injected here -->
+        <div id="screen-loader" class="flex flex-col items-center justify-center h-full py-20">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation (Mobile Friendly) -->
+    <nav class="fixed bottom-0 left-0 right-0 glass border-t border-slate-200 flex justify-around items-center px-4 py-2 z-40">
+        <button data-screen="home" class="nav-btn flex flex-col items-center gap-1 text-primary">
+            <i class="fas fa-home text-xl"></i>
+            <span class="text-[10px] font-bold" data-i18n="nav_home">Home</span>
+        </button>
+        <button data-screen="quests" class="nav-btn flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors">
+            <i class="fas fa-scroll text-xl"></i>
+            <span class="text-[10px] font-bold" data-i18n="nav_quests">Quests</span>
+        </button>
+        <button data-screen="shop" class="nav-btn flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors">
+            <i class="fas fa-store text-xl"></i>
+            <span class="text-[10px] font-bold" data-i18n="nav_shop">Shop</span>
+        </button>
+        <button data-screen="profile" class="nav-btn flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors">
+            <i class="fas fa-user-shield text-xl"></i>
+            <span class="text-[10px] font-bold" data-i18n="nav_profile">Profile</span>
+        </button>
+    </nav>
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+        <div id="modal-content" class="bg-white rounded-4xl w-full max-w-md overflow-hidden shadow-2xl transform transition-all duration-300 scale-95 opacity-0">
+            <!-- Modal content injected here -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

@@ -25,10 +25,22 @@ export class QuizEngine {
     }
 
     prepareQuestions() {
+        const shuffle = (array) => {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        };
+
         let qList = this.category.questions.map(q => ({
             ...q,
-            options: [...q.options].sort(() => 0.5 - Math.random())
-        })).sort(() => 0.5 - Math.random());
+            options: shuffle(q.options)
+        }));
+
+        qList = shuffle(qList);
+
         const count = this.config.count === 'unlimited' ? 100 : parseInt(this.config.count);
         return qList.slice(0, count);
     }

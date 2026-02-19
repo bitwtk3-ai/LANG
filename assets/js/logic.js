@@ -25,7 +25,10 @@ export class QuizEngine {
     }
 
     prepareQuestions() {
-        let qList = [...this.category.questions].sort(() => 0.5 - Math.random());
+        let qList = this.category.questions.map(q => ({
+            ...q,
+            options: [...q.options].sort(() => 0.5 - Math.random())
+        })).sort(() => 0.5 - Math.random());
         const count = this.config.count === 'unlimited' ? 100 : parseInt(this.config.count);
         return qList.slice(0, count);
     }

@@ -25,24 +25,27 @@ export class QuizEngine {
     }
 
     prepareQuestions() {
-        const shuffle = (array) => {
-            const arr = [...array];
-            for (let i = arr.length - 1; i > 0; i--) {
+        // Deep clone questions to ensure no reference sharing
+        const questionsClone = JSON.parse(JSON.stringify(this.category.questions));
+
+        const shuffleArray = (array) => {
+            for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
+                [array[i], array[j]] = [array[j], array[i]];
             }
-            return arr;
+            return array;
         };
 
-        let qList = this.category.questions.map(q => ({
-            ...q,
-            options: shuffle(q.options)
-        }));
+        // Shuffle the list of questions
+        const shuffledQuestions = shuffleArray(questionsClone);
 
-        qList = shuffle(qList);
+        // Shuffle options for EVERY question in the cloned list
+        shuffledQuestions.forEach(q => {
+            shuffleArray(q.options);
+        });
 
         const count = this.config.count === 'unlimited' ? 100 : parseInt(this.config.count);
-        return qList.slice(0, count);
+        return shuffledQuestions.slice(0, count);
     }
 
     init() {

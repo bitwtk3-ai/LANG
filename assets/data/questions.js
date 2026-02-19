@@ -14,7 +14,17 @@ export const categories = [
             { q: "Develop", a: "Geliştirmek", options: ["Geliştirmek", "Uygulamak", "Yönetmek", "Planlamak"] },
             { q: "Improve", a: "İyileştirmek", options: ["İyileştirmek", "Değiştirmek", "Onarmak", "Korumak"] },
             { q: "Understand", a: "Anlamak", options: ["Anlamak", "Anlatmak", "Dinlemek", "Okumak"] },
-            { q: "Remember", a: "Hatırlamak", options: ["Hatırlamak", "Unutmak", "Düşünmek", "Bilmek"] }
+            { q: "Remember", a: "Hatırlamak", options: ["Hatırlamak", "Unutmak", "Düşünmek", "Bilmek"] },
+            { q: "Building", a: "Bina", options: ["Bina", "Yol", "Köprü", "Ev"] },
+            { q: "Clean", a: "Temizlemek", options: ["Temizlemek", "Kirlenmek", "Yıkamak", "Süpürmek"] },
+            { q: "Clothes", a: "Kıyafetler", options: ["Kıyafetler", "Eşyalar", "Yiyecekler", "Aletler"] },
+            { q: "Common", a: "Yaygın", options: ["Yaygın", "Nadir", "Özel", "Farklı"] },
+            { q: "Education", a: "Eğitim", options: ["Eğitim", "Öğretim", "Okul", "Kurs"] },
+            { q: "Family", a: "Aile", options: ["Aile", "Arkadaş", "Komşu", "Akraba"] },
+            { q: "Future", a: "Gelecek", options: ["Gelecek", "Geçmiş", "Şimdi", "Zaman"] },
+            { q: "History", a: "Tarih", options: ["Tarih", "Coğrafya", "Fizik", "Kimya"] },
+            { q: "Journey", a: "Yolculuk", options: ["Yolculuk", "Varış", "Dönüş", "Gezi"] },
+            { q: "Language", a: "Dil", options: ["Dil", "Konuşma", "Söz", "Hece"] }
         ]
     },
     {
@@ -32,7 +42,12 @@ export const categories = [
             { q: "Nature", a: "Doğa", options: ["Doğa", "Şehir", "Çevre", "Dünya"] },
             { q: "Science", a: "Bilim", options: ["Bilim", "Sanat", "Teknik", "Deney"] },
             { q: "Language", a: "Dil", options: ["Dil", "Konuşma", "Yazı", "Ses"] },
-            { q: "Culture", a: "Kültür", options: ["Kültür", "Toplum", "Gelenek", "Yaşam"] }
+            { q: "Culture", a: "Kültür", options: ["Kültür", "Toplum", "Gelenek", "Yaşam"] },
+            { q: "Believe", a: "İnanmak", options: ["İnanmak", "Şüphe", "Korku", "Umut"] },
+            { q: "Challenge", a: "Mücadele", options: ["Mücadele", "Kaçış", "Teslim", "Huzur"] },
+            { q: "Education", a: "Eğitim", options: ["Eğitim", "Oyun", "Spor", "Sanat"] },
+            { q: "Family", a: "Aile", options: ["Aile", "Yabancı", "Düşman", "Kalabalık"] },
+            { q: "Future", a: "Gelecek", options: ["Gelecek", "Dün", "Bugün", "Yarın"] }
         ]
     },
     {

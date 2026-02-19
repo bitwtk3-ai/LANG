@@ -29,19 +29,23 @@ export class QuizEngine {
         const questionsClone = JSON.parse(JSON.stringify(this.category.questions));
 
         const shuffleArray = (array) => {
-            for (let i = array.length - 1; i > 0; i--) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+                [arr[i], arr[j]] = [arr[j], arr[i]];
             }
-            return array;
+            return arr;
         };
 
         // Shuffle the list of questions
-        const shuffledQuestions = shuffleArray(questionsClone);
+        let shuffledQuestions = shuffleArray(questionsClone);
 
-        // Shuffle options for EVERY question in the cloned list
-        shuffledQuestions.forEach(q => {
-            shuffleArray(q.options);
+        // Shuffle options for EVERY question in the list
+        shuffledQuestions = shuffledQuestions.map(q => {
+            return {
+                ...q,
+                options: shuffleArray(q.options)
+            };
         });
 
         const count = this.config.count === 'unlimited' ? 100 : parseInt(this.config.count);
@@ -106,14 +110,14 @@ export class QuizEngine {
                     <span class="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2 block">
                         ${dict.question} ${this.index + 1} / ${total}
                     </span>
-                    <h2 class="text-4xl font-black text-slate-800 leading-tight">${q.q}</h2>
+                    <h2 class="text-5xl font-black text-slate-800 leading-tight">${q.q}</h2>
                 </div>
 
                 <div class="grid grid-cols-1 gap-3 mb-10">
                     ${q.options.map(opt => `
-                        <button onclick="window.currentQuiz.handleAnswer('${opt}')" class="quiz-ans-btn group p-5 rounded-3xl bg-white border-2 border-slate-100 hover:border-primary transition-all text-left flex justify-between items-center">
+                        <button onclick="window.currentQuiz.handleAnswer('${opt}')" class="quiz-ans-btn group p-5 rounded-3xl bg-white border-2 border-slate-100 hover:border-primary hover:shadow-md transition-all text-left flex justify-between items-center shadow-sm">
                             <span class="font-bold text-slate-700">${opt}</span>
-                            <div class="w-6 h-6 rounded-full border-2 border-slate-100 group-hover:border-primary"></div>
+                            <div class="w-6 h-6 rounded-full border-2 border-slate-100 group-hover:border-primary transition-colors"></div>
                         </button>
                     `).join('')}
                 </div>
@@ -146,10 +150,13 @@ export class QuizEngine {
         const buttons = document.querySelectorAll('.quiz-ans-btn');
         buttons.forEach(btn => {
             const btnText = btn.querySelector('span').innerText;
+            const circle = btn.querySelector('div');
             if (btnText === q.a) {
-                btn.classList.add('correct');
+                btn.classList.add('correct', 'border-success', 'bg-emerald-50');
+                if (circle) circle.classList.add('bg-success', 'border-success');
             } else if (btnText === answer && !isCorrect) {
-                btn.classList.add('wrong');
+                btn.classList.add('wrong', 'border-danger', 'bg-red-50');
+                if (circle) circle.classList.add('bg-danger', 'border-danger');
             }
             btn.disabled = true;
         });

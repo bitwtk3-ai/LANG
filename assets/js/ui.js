@@ -30,8 +30,11 @@ export const UI = {
 
         categories.forEach(cat => {
             html += `
-                <div class="quiz-card card-perspective cursor-pointer" onclick="window.episodeApp.startQuizConfig('${cat.id}')">
-                    <div class="card-inner relative h-48 rounded-4xl bg-gradient-to-br ${cat.color} p-8 text-white shadow-xl hover:scale-[1.02] transition-transform overflow-hidden group">
+                <div class="quiz-card card-perspective cursor-pointer"
+                     onmousemove="window.episodeApp.handleCardParallax(event)"
+                     onmouseleave="window.episodeApp.resetCardParallax(event)"
+                     onclick="window.episodeApp.startQuizConfig('${cat.id}')">
+                    <div class="card-inner relative h-48 rounded-4xl bg-gradient-to-br ${cat.color} p-8 text-white shadow-xl transition-all duration-300 overflow-hidden group">
                         <i class="fas ${cat.icon} absolute -right-4 -bottom-4 text-9xl opacity-10 group-hover:scale-110 transition-transform"></i>
                         <h3 class="text-2xl font-black mb-2">${dict[cat.name_key]}</h3>
                         <p class="text-sm opacity-80">${cat.questions.length} Questions</p>
